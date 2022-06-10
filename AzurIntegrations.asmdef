@@ -1,3 +1,18 @@
 {
-	"name": "AzurIntegrations"
+    "name": "AzurIntegrations",
+    "rootNamespace": "",
+    "references": [
+        "MaxSdk.Scripts",
+        "AppMetrica",
+        "AppsFlyer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
