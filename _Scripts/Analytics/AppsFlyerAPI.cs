@@ -88,7 +88,7 @@ namespace BoGD
             }
             Dictionary<string, string> data = new Dictionary<string, string> ();
             data.Add(AFInAppEvents.CURRENCY, item.ISO);
-            data.Add(AFInAppEvents.REVENUE, item.LocalizedPrice.ToString());
+            data.Add(AFInAppEvents.REVENUE, item.LocalizedPrice.ToString().Replace(",", "."));
             data.Add(AFInAppEvents.QUANTITY, "1");
             data.Add(AFInAppEvents.CONTENT_ID, item.ID);
             AppsFlyer.sendEvent(AFInAppEvents.PURCHASE, data);
