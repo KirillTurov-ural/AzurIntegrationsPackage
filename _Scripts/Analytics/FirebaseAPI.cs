@@ -15,8 +15,12 @@ namespace BoGD
 #endif
         private string                  token;
 
+        private string                  instanceId;
+
         [SerializeField]
         private bool                    sendMessagingToken = true;
+        [SerializeField]
+        private bool                    getInstanceId = false;
 
         private void Start()
         {
@@ -37,6 +41,14 @@ namespace BoGD
                         StartCoroutine(WaitForToken());
                     }
 #endif
+
+                    if(getInstanceId)
+                    {
+                        Firebase.Analytics.FirebaseAnalytics.GetAnalyticsInstanceIdAsync().ContinueWith(task =>
+                        {
+                            instanceId = task.Result;
+                        });
+                    }
                     //Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
                     //Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
                     // Set a flag here to indicate whether Firebase is ready to use by your app.
@@ -133,6 +145,11 @@ namespace BoGD
         public override void SendPurchase(IInAppItem item)
         {
             base.SendPurchase(item);
+        }
+
+        public override Dictionary<string, string> GetDataForRemove()
+        {
+            return new Dictionary<string, string> { { "type", "FirebaseID" }, { "value", instanceId.IsNullOrEmpty() ? "NULL" : instanceId } };
         }
 
         public override void SendADS(string eventName, Dictionary<string, object> data)
