@@ -42,6 +42,8 @@ namespace BoGD
         [SerializeField]
         private string              urlRemoveData = "https://r5pxow34k2.execute-api.us-east-1.amazonaws.com/prod/streams/GDPR/record";
 
+        private string              gaid;
+
         private List<IAnalytics>    purchasesAnalyticsInstances = new List<IAnalytics>();
         private List<IAnalytics>    eventsAnalyticsInstances = new List<IAnalytics>();
         private List<IAnalytics>    purchasesValidatorsInstances = new List<IAnalytics>();
@@ -104,6 +106,14 @@ namespace BoGD
                     removeDataAnalyticsInstances.Add(GetAnalytics(staticType));
                 }
             }
+
+            Application.RequestAdvertisingIdentifierAsync(OnGetAdId);
+        }
+
+        private void OnGetAdId(string advertisingId, bool trackingEnabled, string error)
+        {
+            gaid = advertisingId;
+            Debug.Log("TEST: advertisingId " + advertisingId + " " + trackingEnabled + " " + error);
         }
 
         public override bool Validate(IInAppItem item, System.Action<IInAppItem, bool> callback)
@@ -194,6 +204,7 @@ namespace BoGD
 #else
             ids.Add(new Dictionary<string, string>() { { "type", "IDFA" }, { "value", "TEST IDFA" } });
             ids.Add(new Dictionary<string, string>() { { "type", "IDFV" }, { "value", "TEST IDFV" } });
+            ids.Add(new Dictionary<string, string> { { "type", "GAID" }, { "value", gaid.IsNullOrEmpty()? "TEST GAID" : gaid } });
 #endif
             ids.Add(new Dictionary<string, string>() { { "type", "app_id" }, { "value", appId } });
 
