@@ -108,6 +108,23 @@ namespace BoGD
             }
 
             Application.RequestAdvertisingIdentifierAsync(OnGetAdId);
+            StartCoroutine(AnalyticsIdSend());
+        }
+
+        private IEnumerator AnalyticsIdSend()
+        {
+            yield return new WaitForEndOfFrame();
+#if UNITY_IOS
+            Event(Message.AnalyticsIdReceived, "idfa", UnityEngine.iOS.Device.advertisingIdentifier);
+            Event(Message.AnalyticsIdReceived, "idfv", UnityEngine.iOS.Device.vendorIdentifier);
+#else
+            while (gaid.IsNullOrEmpty())
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            Event(Message.AnalyticsIdReceived, "gaid", gaid);
+#endif
+
         }
 
         private void OnGetAdId(string advertisingId, bool trackingEnabled, string error)

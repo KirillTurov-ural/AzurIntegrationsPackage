@@ -14,6 +14,7 @@ namespace BoGD
         ProfileLocalLoaded  = 5,
         StaticTypeInited    = 6,
         ShowDebugger        = 7,
+        AnalyticsIdReceived = 8,
     }
 
     public enum StaticType

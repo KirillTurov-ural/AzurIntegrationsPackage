@@ -5,19 +5,33 @@ using UnityEngine.UI;
 
 namespace BoGD
 {
-    public class WindowSample : MonoBehaviourBase
+    [System.Serializable]
+    public class ItemIdContainer
     {
         [SerializeField]
-        private Button                          buttonBanner = null;
+        private string  name = "idfv";
         [SerializeField]
-        private Text                            textBannerState = null;
+        private Text    text = null;
+
+        public string Name => name;
+
+        public void Set(string value)
+        {
+            text.text = value;
+        }
+    }
+    public class WindowSample : MonoBehaviourBase, ISubscriber
+    {
+        [Header("BUTTONS")]
+        [SerializeField]
+        private Button                          buttonBanner = null;
+        
         [SerializeField]
         private Button                          buttonInterstitial = null;
         [SerializeField]
         private Button                          buttonRewarded = null;
         [SerializeField]
         private Button                          buttonShowMediationDebugger = null;
-
         [SerializeField]
         private Button                          buttonSendStart = null;
         [SerializeField]
@@ -25,21 +39,69 @@ namespace BoGD
         [SerializeField]
         private Button                          buttonRemoveUserData = null;
 
+        [Header("TEXTS")]
+        [SerializeField]
+        private List<ItemIdContainer>           texts = null;
+
+
+        [Header("SAMPLE DATA")]
+        [SerializeField]
+        private DataInt                         soft = new DataInt("resources.soft");
         [SerializeField]
         protected DataInt                       battlesAnalytics = new DataInt("longs.battles");
+        [SerializeField]
+        private ReferencePriceAds               rewardedSample = null;
+        [SerializeField]
+        private int                             rewardedBonus = 5;
+
+        private Dictionary<string, ItemIdContainer> items = null;
+        private Dictionary<string, ItemIdContainer> Items
+        {
+            get
+            {
+                if(items == null)
+                {
+                    items = new Dictionary<string, ItemIdContainer>();
+                    foreach(var text in texts)
+                    {
+                        items[text.Name] = text;
+                    }                    
+                }
+                return items;
+            }
+        }
 
         protected Dictionary<string, object>    analyticsFixedData = new Dictionary<string, object>();
         protected float                         timeStartLevel = 0;
         private bool                            bannerEnabled = false;
 
-        [SerializeField]
-        private ReferencePriceAds               rewardedSample = null;        
-        [SerializeField]
-        private int                             rewardedBonus = 5;
-        [SerializeField]
-        private DataInt                         soft = new DataInt("resources.soft");
-        [SerializeField]
-        private Text                            textMoneySample = null;
+#region ISubscriber
+        public string Description
+        {
+            get => name;
+            set => name = value;
+        }
+
+
+        public void Reaction(Message message, params object[] parameters)
+        {
+            switch (message)
+            {
+                case Message.AnalyticsIdReceived:
+                    SetText(parameters.Get<string>(0), parameters.Get<string>(1));
+                    break;
+            }
+        }
+#endregion
+
+        private void SetText(string name, string value)
+        {
+            ItemIdContainer item = null;
+            if(Items.TryGetValue(name, out item))
+            {
+                item.Set(value);
+            }
+        }
 
         private void Start()
         {
@@ -55,7 +117,14 @@ namespace BoGD
 
             //AFTER LOADING YOUR PROFILE DATA 
             AdsManager.Reaction(Message.ProfileLocalLoaded);
-            textMoneySample.text = soft.Value.ToString();
+            SetText("money", soft.Value.ToString());
+
+            Analytics.AddSubscriber(this);
+        }
+
+        private void OnDestroy()
+        {
+            Analytics.RemoveSubscriber(this);
         }
 
         private void RemoveUserData()
@@ -89,7 +158,7 @@ namespace BoGD
             {
                 Debug.LogError("GRANT REWARD!!!");
                 soft.Increment(rewardedBonus);
-                textMoneySample.text = soft.Value.ToString();
+                SetText("money", soft.Value.ToString());
             }
         }
 
@@ -108,7 +177,7 @@ namespace BoGD
         {
             bannerEnabled = !bannerEnabled;
             AdsManager.Reaction(Message.RequestADS, RequestADSType.Banner, "banner", bannerEnabled);
-            textBannerState.text = "BANNER (" + (bannerEnabled ? "ON" : "OFF") + ")";
+            SetText("banner", "BANNER (" + (bannerEnabled ? "ON" : "OFF") + ")");
         }
 
         /// <summary>
@@ -184,5 +253,6 @@ namespace BoGD
 
             return analyticsData;
         }
+
     }
 }

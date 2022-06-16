@@ -44,6 +44,7 @@ namespace BoGD
 
                     if(getInstanceId)
                     {
+                        StartCoroutine(WaitForInstanceId());
                         Firebase.Analytics.FirebaseAnalytics.GetAnalyticsInstanceIdAsync().ContinueWith(task =>
                         {
                             instanceId = task.Result;
@@ -61,8 +62,16 @@ namespace BoGD
                 }
             });
 #endif
+        }
 
+        private IEnumerator WaitForInstanceId()
+        {
+            while (instanceId.IsNullOrEmpty())
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
 
+            Analytics.Event(Message.AnalyticsIdReceived, "firebaseid", instanceId);
         }
 
         private IEnumerator WaitForAppsflyerInit()
