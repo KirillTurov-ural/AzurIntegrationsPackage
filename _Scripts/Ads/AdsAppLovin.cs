@@ -51,6 +51,15 @@ namespace BoGD
                 switch (sdkConfiguration.ConsentDialogState)
                 {
                     case MaxSdkBase.ConsentDialogState.Applies:
+                        bool isAutomaticConsent = false;
+#if UNITY_IOS
+                        isAutomaticConsent = MaxSdkUtils.CompareVersions(UnityEngine.iOS.Device.systemVersion, "14.5") != MaxSdkUtils.VersionComparisonResult.Lesser;
+#endif
+                        //Check 1 - applies, 2 - automatic consent 3 - saved consent
+                        if (!isAutomaticConsent && privacy.Value == 0)
+                        {
+                            //SHOW WINDOW GDPR
+                        }
                         break;
 
                     case MaxSdkBase.ConsentDialogState.DoesNotApply:
@@ -64,7 +73,7 @@ namespace BoGD
             MaxSdk.InitializeSdk();
 #else
 
-            Event(Message.StaticTypeInited, StaticType);
+                        Event(Message.StaticTypeInited, StaticType);
 #endif
         }
 #if APPLOVIN_INT
