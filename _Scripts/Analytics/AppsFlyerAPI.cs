@@ -58,6 +58,7 @@ namespace BoGD
             AppsFlyer.startSDK();
             //Debug.LogError("APPSFLYER START SDK");
             Inited = true;
+            //AppsFlyer.getAppsFlyerId();
 #endif
         }
 
@@ -75,6 +76,19 @@ namespace BoGD
         {
             //AppsFlyer.validateReceipt(item.ID, item.LocalizedPrice.ToString(), item.ISO, item.TransactionID, null);            
             return true;
+        }
+
+
+        public override void RemoveUserData()
+        {
+//#if APPSFLYER_INT
+//            AppsFlyer.anonymizeUser(true);
+//
+//            	
+//#if UNITY_IOS && !UNITY_EDITOR
+//            AppsFlyeriOS.disableSKAdNetwork(true);
+//#endif
+//#endif
         }
 
         public override void SendPurchase(IInAppItem item)

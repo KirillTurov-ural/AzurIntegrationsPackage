@@ -107,6 +107,7 @@ namespace BoGD
                 }
             }
 
+            Debug.LogError("GAID: TRY TO GET");
             Application.RequestAdvertisingIdentifierAsync(OnGetAdId);
             StartCoroutine(AnalyticsIdSend());
         }
@@ -130,7 +131,8 @@ namespace BoGD
         private void OnGetAdId(string advertisingId, bool trackingEnabled, string error)
         {
             gaid = advertisingId;
-            Debug.Log("TEST: advertisingId " + advertisingId + " " + trackingEnabled + " " + error);
+            
+            Debug.LogError("GAID: advertisingId " + advertisingId + " " + trackingEnabled + " " + error);
         }
 
         public override bool Validate(IInAppItem item, System.Action<IInAppItem, bool> callback)
@@ -207,6 +209,11 @@ namespace BoGD
         /// </summary>
         public override void RemoveUserData()
         {
+            foreach(var analytics in removeDataAnalyticsInstances)
+            {
+                analytics.RemoveUserData();
+            }
+
             var data = new Dictionary<string, object>();
             data["event_datetime"] = ExtensionsCommon.CurrentTime().ToString();
             data["bundle_id"] = Application.identifier;
@@ -228,7 +235,12 @@ namespace BoGD
 
             foreach (var analytics in removeDataAnalyticsInstances)
             {
-                ids.Add(analytics.GetDataForRemove());
+                var id =analytics.GetDataForRemove();
+                if(id == null)
+                {
+                    continue;
+                }
+                ids.Add(id);
             }
 
             data["ids"] = ids;

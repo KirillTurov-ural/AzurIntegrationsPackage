@@ -43,7 +43,7 @@ namespace BoGD
 
         public virtual Dictionary<string, string> GetDataForRemove()
         {
-            return new Dictionary<string, string>();
+            return null;
         }
     }
 

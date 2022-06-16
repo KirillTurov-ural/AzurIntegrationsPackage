@@ -70,5 +70,13 @@ namespace BoGD
 #endif
             return true;
         }
+
+        public override void RemoveUserData()
+        {
+#if APPMETRICA_INT
+            //base.RemoveUserData();
+            //AppMetrica.Instance.Stop
+#endif
+        }
     }
 }
