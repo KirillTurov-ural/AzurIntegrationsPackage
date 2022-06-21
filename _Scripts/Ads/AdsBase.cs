@@ -13,11 +13,11 @@ namespace BoGD
         private string          id= "common";
 
         [SerializeField]
-        private DataInt minCount = new DataInt("longs.ads.minrequestnumber");
+        private DataIntPrefs minCount = new DataIntPrefs("longs.ads.minrequestnumber");
         [SerializeField]
-        private DataInt freqAds = new DataInt("longs.ads.freq");
+        private DataIntPrefs freqAds = new DataIntPrefs("longs.ads.freq");
         [SerializeField]
-        private DataInt endsCount = new DataInt("longs.ads.currentrequestnumber");
+        private DataIntPrefs endsCount = new DataIntPrefs("longs.ads.currentrequestnumber");
 
         public string Id => id;
 
@@ -101,7 +101,7 @@ namespace BoGD
     {
         [SerializeField]
         [Header("REMOVE ADS PURCHASES")]
-        private DataPurchase[]                  purchasesAds = null;
+        private DataPurchasePrefs[]                  purchasesAds = null;
         
         [SerializeField]
         [Header("REMOVE ADS ANY PURCHASE")]
@@ -121,7 +121,7 @@ namespace BoGD
         
         [SerializeField]
         [Header("LAST OFFER SHOW DATE")]
-        private DataInt                         lastADSShowDate = new DataInt("longs.ads.lastday");
+        private DataIntPrefs                         lastADSShowDate = new DataIntPrefs("longs.ads.lastday");
 
         [SerializeField]
         [Header("SHOW BANNER")]

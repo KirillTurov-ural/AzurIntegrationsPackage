@@ -46,9 +46,9 @@ namespace BoGD
 
         [Header("SAMPLE DATA")]
         [SerializeField]
-        private DataInt                         soft = new DataInt("resources.soft");
+        private DataIntPrefs                         soft = new DataIntPrefs("resources.soft");
         [SerializeField]
-        protected DataInt                       battlesAnalytics = new DataInt("longs.battles");
+        protected DataIntPrefs                       battlesAnalytics = new DataIntPrefs("longs.battles");
         [SerializeField]
         private ReferencePriceAds               rewardedSample = null;
         [SerializeField]

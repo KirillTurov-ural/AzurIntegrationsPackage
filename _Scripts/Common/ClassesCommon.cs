@@ -12,7 +12,7 @@ namespace BoGD
 {
     public class DataPurchases
     {
-        private List<DataPurchase> purchases = null;
+        private List<DataPurchasePrefs> purchases = null;
 
         public bool AnyPurchased
         {
@@ -31,7 +31,7 @@ namespace BoGD
         }
     }
 
-    public class DataPurchase
+    public class DataPurchasePrefs
     {
         public long Count
         {
@@ -41,7 +41,7 @@ namespace BoGD
     }
 
     [System.Serializable]
-    public class DataInt
+    public class DataIntPrefs
     {
         [SerializeField]
         private string  key = "";
@@ -60,19 +60,25 @@ namespace BoGD
             Value += delta;
         }
 
-        public DataInt()
+        public DataIntPrefs()
         {
 
         }
 
-        public DataInt(string key)
+        public DataIntPrefs(string key)
         {
             this.key = key;
+        }
+
+        public DataIntPrefs(string key, int defaultValue)
+        {
+            this.key = key;
+            this.defaultValue = defaultValue;
         }
     }
 
     [System.Serializable]
-    public class DataFloat
+    public class DataFloatPrefs
     {
         [SerializeField]
         private string      key = "";
@@ -97,12 +103,12 @@ namespace BoGD
             Value += delta;
         }
 
-        public DataFloat()
+        public DataFloatPrefs()
         {
 
         }
 
-        public DataFloat(string key)
+        public DataFloatPrefs(string key)
         {
             this.key = key;
         }
@@ -112,9 +118,9 @@ namespace BoGD
     public class RequirementTimeResource
     {
         [SerializeField]
-        private DataFloat   timerData = null;
+        private DataFloatPrefs   timerData = null;
         [SerializeField]
-        private float       delay;
+        private float           delay;
 
         public float Delay
         {
@@ -124,7 +130,7 @@ namespace BoGD
 
         public RequirementTimeResource(string key, float delay)
         {
-            timerData = new DataFloat(key);
+            timerData = new DataFloatPrefs(key);
             this.delay = delay;
         }
 
@@ -144,7 +150,7 @@ namespace BoGD
         }
     }
 
-    public class DataString
+    public class DataStringPrefs
     {
         [SerializeField]
         private string      key = "";
@@ -169,12 +175,12 @@ namespace BoGD
             Value += delta;
         }
 
-        public DataString()
+        public DataStringPrefs()
         {
 
         }
 
-        public DataString(string key)
+        public DataStringPrefs(string key)
         {
             this.key = key;
         }

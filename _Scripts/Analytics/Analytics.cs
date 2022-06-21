@@ -88,27 +88,47 @@ namespace BoGD
             {
                 foreach (var staticType in purchasesAnalitycs)
                 {
-                    purchasesAnalyticsInstances.Add(GetAnalytics(staticType));
+                    var instance = GetAnalytics(staticType);
+                    if(instance == null)
+                    {
+                        continue;
+                    }
+                    purchasesAnalyticsInstances.Add(instance);
                 }
 
                 foreach (var staticType in eventsAnalitycs)
                 {
-                    eventsAnalyticsInstances.Add(GetAnalytics(staticType));
+                    var instance = GetAnalytics(staticType);
+                    if (instance == null)
+                    {
+                        continue;
+                    }
+                    eventsAnalyticsInstances.Add(instance);
                 }
 
                 foreach (var staticType in purchasesValidators)
                 {
-                    purchasesValidatorsInstances.Add(GetAnalytics(staticType));
+                    var instance = GetAnalytics(staticType);
+                    if (instance == null)
+                    {
+                        continue;
+                    }
+                    purchasesValidatorsInstances.Add(instance);
                 }
 
                 foreach (var staticType in removeDataAnalytics)
                 {
-                    removeDataAnalyticsInstances.Add(GetAnalytics(staticType));
+                    var instance = GetAnalytics(staticType);
+                    if (instance == null)
+                    {
+                        continue;
+                    }
+                    removeDataAnalyticsInstances.Add(instance);
                 }
             }
 
-            Debug.LogError("GAID: TRY TO GET");
-            Application.RequestAdvertisingIdentifierAsync(OnGetAdId);
+            //Debug.LogError("GAID: TRY TO GET");
+            //Application.RequestAdvertisingIdentifierAsync(OnGetAdId);
             StartCoroutine(AnalyticsIdSend());
         }
 
@@ -128,12 +148,12 @@ namespace BoGD
 
         }
 
-        private void OnGetAdId(string advertisingId, bool trackingEnabled, string error)
-        {
-            gaid = advertisingId;
-            
-            Debug.LogError("GAID: advertisingId " + advertisingId + " " + trackingEnabled + " " + error);
-        }
+        //private void OnGetAdId(string advertisingId, bool trackingEnabled, string error)
+        //{
+        //    gaid = advertisingId;
+        //    
+        //    Debug.LogError("GAID: advertisingId " + advertisingId + " " + trackingEnabled + " " + error);
+        //}
 
         public override bool Validate(IInAppItem item, System.Action<IInAppItem, bool> callback)
         {

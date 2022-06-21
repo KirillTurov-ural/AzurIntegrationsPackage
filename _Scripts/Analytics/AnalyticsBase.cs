@@ -6,6 +6,9 @@ namespace BoGD
 {
     public class AnalyticsBase : StaticBehaviour, IAnalytics
     {
+        [SerializeField]
+        private DataIntPrefs activeFlag = new DataIntPrefs("int.analytics.active", 1);
+
         public virtual bool Inited
         {
             get;
@@ -14,9 +17,9 @@ namespace BoGD
 
         public virtual bool Active
         {
-            get;
-            set;
-        } = true;
+            get => activeFlag.Value == 1;
+            set => activeFlag.Value = value ? 1 : 0;
+        } 
 
         public override StaticType StaticType => StaticType.Analytics;
 

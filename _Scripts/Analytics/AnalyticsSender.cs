@@ -7,7 +7,7 @@ namespace BoGD
     public class AnalyticsSender : MonoBehaviourBase, ISubscriber
     {
         [SerializeField]
-        private DataString savedData = new DataString("strings.analytics");
+        private DataStringPrefs savedData = new DataStringPrefs("strings.analytics");
 
         public string Description
         {

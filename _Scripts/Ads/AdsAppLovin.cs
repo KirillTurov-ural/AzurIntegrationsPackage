@@ -11,7 +11,7 @@ namespace BoGD
         [SerializeField]
         private string          reportKey = "_kcJV4v8Td-r-cg789xwkL6rvU_QWICV0pqWtieKLcAJEsQN_MHiiOTctX1NqDur0hLuP_ClcN3rDUDCsVwTuS";        
         [SerializeField]
-        private DataInt         privacy = new DataInt("int.privacy");
+        private DataIntPrefs         privacy = new DataIntPrefs("int.privacy");
         [SerializeField]
         private bool            enableDebugger = true;
 

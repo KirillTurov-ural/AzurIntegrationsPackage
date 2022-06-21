@@ -7,7 +7,7 @@ namespace BoGD
     public class FirebaseAPI : AnalyticsBase
     {
         [SerializeField]
-        private DataString         tokenData = new DataString("strings.firebase.pushtoken");
+        private DataStringPrefs         tokenData = new DataStringPrefs("strings.firebase.pushtoken");
         public override StaticType StaticType => StaticType.AnalyticsFirebase;
 
 #if FIREBASE_INT
