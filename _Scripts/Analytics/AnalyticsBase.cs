@@ -12,6 +12,12 @@ namespace BoGD
             protected set;
         }
 
+        public virtual bool Active
+        {
+            get;
+            set;
+        } = true;
+
         public override StaticType StaticType => StaticType.Analytics;
 
         public virtual bool Validate(IInAppItem item, System.Action<IInAppItem, bool> callback)
@@ -38,7 +44,7 @@ namespace BoGD
 
         public virtual void RemoveUserData()
         {
-
+            Active = false;
         }
 
         public virtual Dictionary<string, string> GetDataForRemove()
@@ -50,6 +56,11 @@ namespace BoGD
     public interface IAnalytics : IStatic
     {
         bool Inited
+        {
+            get;
+        }
+
+        bool Active
         {
             get;
         }

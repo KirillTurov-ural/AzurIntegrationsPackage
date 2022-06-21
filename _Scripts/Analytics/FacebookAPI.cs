@@ -34,6 +34,8 @@ namespace BoGD
         public override StaticType StaticType => StaticType.AnalyticsFacebook;
         private bool    tryToInit =false;
 
+
+
         protected override void Awake()
         {
             base.Awake();
@@ -76,6 +78,10 @@ namespace BoGD
 
         public override void SendEvent(string eventName, Dictionary<string, object> data)
         {
+            if (!Active)
+            {
+                return;
+            }
 #if FACEBOOK_INT
             Debug.LogFormat("{0} try to send event: {1}", name, eventName);
             if (FB.IsInitialized)
@@ -89,8 +95,18 @@ namespace BoGD
 #endif
         }
 
+        public override void RemoveUserData()
+        {
+            base.RemoveUserData();
+        }
+
         public override void SendPurchase(IInAppItem item)
         {
+            if (!Active)
+            {
+                return;
+            }
+
 #if FACEBOOK_INT
             if (FB.IsInitialized)
             {

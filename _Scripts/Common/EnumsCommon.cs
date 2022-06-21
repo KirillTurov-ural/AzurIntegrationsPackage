@@ -28,10 +28,11 @@ namespace BoGD
         AnalyticsAppsFlyer  = 1002,
         AnalyticsAppMetrica = 1003,
         AnalyticsFirebase   = 1004,
+        AnalyticsUnity      = 1005,
+        AnalyticsFacebook   = 1006,
 
         AdsManager          = 2001,
         AdsAppLovin         = 2002,
-        AnalyticsFacebook   = 2003,
     }
 
     public enum AdType

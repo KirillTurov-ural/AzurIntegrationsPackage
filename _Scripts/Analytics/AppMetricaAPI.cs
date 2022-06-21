@@ -14,6 +14,11 @@ namespace BoGD
         public override void SendEvent(string eventName, Dictionary<string, object> data)
         {
             base.SendEvent(eventName, data);
+            if (!Active)
+            {
+                return;
+            }
+
 #if APPMETRICA_INT
             AppMetrica.Instance.ReportEvent(eventName, data);
 #endif
@@ -22,6 +27,10 @@ namespace BoGD
         public override void SendBuffer()
         {
             base.SendBuffer();
+            if (!Active)
+            {
+                return;
+            }
 
 #if APPMETRICA_INT
             AppMetrica.Instance.SendEventsBuffer();
@@ -31,6 +40,10 @@ namespace BoGD
         public override void SendPurchase(IInAppItem item)
         {
             base.SendPurchase(item);
+            if (!Active)
+            {
+                return;
+            }
 
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             dictionary["inapp_id"] = item.ID;
@@ -45,6 +58,11 @@ namespace BoGD
         public override bool Validate(IInAppItem item, System.Action<IInAppItem, bool> callback)
         {
 #if APPMETRICA_INT
+            if (!Active)
+            {
+                return false;
+            }
+
             string currency = item.ISO;
             var price = item.LocalizedPrice;
 
@@ -73,8 +91,10 @@ namespace BoGD
 
         public override void RemoveUserData()
         {
+            base.RemoveUserData();
+
 #if APPMETRICA_INT
-            //base.RemoveUserData();
+            AppMetrica.Instance.SetStatisticsSending(false);
             //AppMetrica.Instance.Stop
 #endif
         }

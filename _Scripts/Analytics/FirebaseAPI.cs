@@ -127,6 +127,10 @@ namespace BoGD
         public override void SendEvent(string eventName, Dictionary<string, object> data)
         {
             base.SendEvent(eventName, data);
+            if (!Active)
+            {
+                return;
+            }
 
 #if FIREBASE_INT
             List<Firebase.Analytics.Parameter> parameters = new List<Firebase.Analytics.Parameter>();
@@ -165,6 +169,10 @@ namespace BoGD
         {
             base.SendADS(eventName, data);
 
+            if (!Active)
+            {
+                return;
+            }
 
 #if FIREBASE_INT
             List<Firebase.Analytics.Parameter> parameters = new List<Firebase.Analytics.Parameter>();
@@ -188,6 +196,14 @@ namespace BoGD
             }
 
             Firebase.Analytics.FirebaseAnalytics.LogEvent(Firebase.Analytics.FirebaseAnalytics.EventPurchase, parameters.ToArray());
+#endif
+        }
+
+        public override void RemoveUserData()
+        {
+            base.RemoveUserData();
+#if FIREBASE_INT
+            Firebase.Analytics.FirebaseAnalytics.SetAnalyticsCollectionEnabled(false);
 #endif
         }
     }

@@ -81,25 +81,30 @@ namespace BoGD
 
         public override void RemoveUserData()
         {
-//#if APPSFLYER_INT
-//            AppsFlyer.anonymizeUser(true);
-//
-//            	
+            base.RemoveUserData();
+#if APPSFLYER_INT
+            AppsFlyer.stopSDK(true);
+//            AppsFlyer.anonymizeUser(true);            	
 //#if UNITY_IOS && !UNITY_EDITOR
 //            AppsFlyeriOS.disableSKAdNetwork(true);
 //#endif
-//#endif
+#endif
         }
 
         public override void SendPurchase(IInAppItem item)
         {
             base.SendPurchase(item);
-
-#if APPSFLYER_INT
             if (!Inited)
             {
                 return;
             }
+
+            if (!Active)
+            {
+                return;
+            }
+
+#if APPSFLYER_INT
             Dictionary<string, string> data = new Dictionary<string, string> ();
             data.Add(AFInAppEvents.CURRENCY, item.ISO);
             data.Add(AFInAppEvents.REVENUE, item.LocalizedPrice.ToString().Replace(",", "."));
@@ -111,11 +116,17 @@ namespace BoGD
 
         public override void SendADS(string eventName, Dictionary<string, object> data)
         {
-#if APPSFLYER_INT
             if (!Inited)
             {
                 return;
             }
+
+            if (!Active)
+            {
+                return;
+            }
+
+#if APPSFLYER_INT         
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             foreach(var item in data)
             {
