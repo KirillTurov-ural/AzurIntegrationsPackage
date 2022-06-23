@@ -42,7 +42,7 @@ namespace BoGD
         [SerializeField]
         private string              urlRemoveData = "https://r5pxow34k2.execute-api.us-east-1.amazonaws.com/prod/streams/GDPR/record";
         [SerializeField]
-        private string              bearerToken = "";
+        private string              bearerToken = "Bearer 2b961016-6776-43e7-a0c8-1b1d8f5ccc5d";
 
         private string              gaid;
 
