@@ -41,6 +41,8 @@ namespace BoGD
         private string              appId = "IOS_APP_ID";
         [SerializeField]
         private string              urlRemoveData = "https://r5pxow34k2.execute-api.us-east-1.amazonaws.com/prod/streams/GDPR/record";
+        [SerializeField]
+        private string              bearerToken = "";
 
         private string              gaid;
 
@@ -278,7 +280,7 @@ namespace BoGD
 
             var www = UnityEngine.Networking.UnityWebRequest.Put(urlRemoveData, payloadStr);
 
-            www.SetRequestHeader("Authorization", "Bearer 2b961016-6776-43e7-a0c8-1b1d8f5ccc5d");
+            www.SetRequestHeader("Authorization", bearerToken);
             www.SetRequestHeader("Content-Type", "application/json");
             
             Debug.Log("Try to remove! " + payloadStr);
