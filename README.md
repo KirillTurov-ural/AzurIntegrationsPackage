@@ -3,10 +3,10 @@
 для корректной работы проектов, публикуемых посредством Azur Games
 
 ### Список интеграций
-AppLovin - APPLOVIN_INT
-AppsFlyer - APPSFLYER_INT
-AppMetrica - APPMETRICA_INT
-Facebook - FACEBOOK_INT
+AppLovin - APPLOVIN_INT\n
+AppsFlyer - APPSFLYER_INT\n
+AppMetrica - APPMETRICA_INT\n
+Facebook - FACEBOOK_INT\n
 Firebase - FIREBASE_INT
 
 ### Установка
