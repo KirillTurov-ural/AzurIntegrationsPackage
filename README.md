@@ -3,11 +3,11 @@
 для корректной работы проектов, публикуемых посредством Azur Games
 
 ### Список интеграций
-AppLovin - APPLOVIN_INT
-AppsFlyer - APPSFLYER_INT
-AppMetrica - APPMETRICA_INT
-Facebook - FACEBOOK_INT
-Firebase - FIREBASE_INT
+- AppLovin - APPLOVIN_INT
+- AppsFlyer - APPSFLYER_INT
+- AppMetrica - APPMETRICA_INT
+- Facebook - FACEBOOK_INT
+- Firebase - FIREBASE_INT
 
 ### Установка
 Первый способ - При помощи Unity Package Manager
