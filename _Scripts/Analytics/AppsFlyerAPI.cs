@@ -13,11 +13,41 @@ namespace BoGD
     public class AppsFlyerAPI : AnalyticsBase
     {
         [SerializeField]
-        private string devKey = "r9vNC83N8nYpCzYGigyjUh";
-        [SerializeField]
-        private string iOSAppId = "";
-        [SerializeField]
-        private bool isDebug = false;
+        private string              devKey = "r9vNC83N8nYpCzYGigyjUh";
+        [SerializeField]            
+        private string              iOSAppId = "";
+        [SerializeField]            
+        private bool                isDebug = false;
+        [SerializeField]            
+        private bool                autoTrackSubscriptions = false;
+
+        private string              autoTrackingSubscriptionsPluginName = "ural.games.afsubscriptions.AutoRevenue";
+        private AndroidJavaClass    autoTrackingSubscriptionsClass = null;
+        private AndroidJavaObject   autoTrackingSubscriptionsInstance = null;
+
+        private AndroidJavaClass AutoTrackingSubscriptionsClass
+        {
+            get
+            {
+                if(autoTrackingSubscriptionsClass == null)
+                {
+                    autoTrackingSubscriptionsClass = new AndroidJavaClass(autoTrackingSubscriptionsPluginName);
+                }
+                return autoTrackingSubscriptionsClass;
+            }
+        }
+
+        private AndroidJavaObject AutoTrackingSubscriptionsInstance
+        {
+            get
+            {
+                if(autoTrackingSubscriptionsInstance == null)
+                {
+                    autoTrackingSubscriptionsInstance = AutoTrackingSubscriptionsClass.CallStatic<AndroidJavaObject>("getInstance");
+                }
+                return autoTrackingSubscriptionsInstance;
+            }
+        }
 
         public override StaticType StaticType
         {
@@ -60,6 +90,19 @@ namespace BoGD
             Inited = true;
             //AppsFlyer.getAppsFlyerId();
 #endif
+
+            if (autoTrackSubscriptions)
+            {
+                if(Application.platform == RuntimePlatform.Android)
+                {
+                    var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                    var unityActivity = unityClass.GetStatic<AndroidJavaObject>("currentActivity");
+
+                    Debug.LogError("AutoSubs: Init Start");
+                    AutoTrackingSubscriptionsInstance.Call("Init", unityActivity);
+                    Debug.LogError("AutoSubs: Init End");
+                }
+            }
         }
 
         public void FinishValidateReceipt(string validateResult)
