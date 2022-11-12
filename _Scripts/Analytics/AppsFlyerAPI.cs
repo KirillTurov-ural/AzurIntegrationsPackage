@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 #if APPSFLYER_INT
@@ -20,11 +21,20 @@ namespace BoGD
         private bool                isDebug = false;
         [SerializeField]            
         private bool                autoTrackSubscriptions = false;
+        [SerializeField]
+        private bool                isSandbox = false;
 
         private string              autoTrackingSubscriptionsPluginName = "ural.games.afsubscriptions.AutoRevenue";
         private AndroidJavaClass    autoTrackingSubscriptionsClass = null;
         private AndroidJavaObject   autoTrackingSubscriptionsInstance = null;
 
+#if UNITY_IOS
+        [DllImport("__Internal")]
+#elif UNITY_STANDALONE_OSX
+        [DllImport("libAF-AutoSubscriptions")]
+#endif
+        private static extern void InitAFAutoSubs(string appId, string devKey, bool isSandbox);
+        
         private AndroidJavaClass AutoTrackingSubscriptionsClass
         {
             get
@@ -93,15 +103,22 @@ namespace BoGD
 
             if (autoTrackSubscriptions)
             {
+#if APPSFLYER_INT
                 if(Application.platform == RuntimePlatform.Android)
                 {
                     var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                     var unityActivity = unityClass.GetStatic<AndroidJavaObject>("currentActivity");
 
                     Debug.LogError("AutoSubs: Init Start");
-                    AutoTrackingSubscriptionsInstance.Call("Init", unityActivity);
+                    AutoTrackingSubscriptionsInstance.Call("Init", unityActivity, isSandbox);
                     Debug.LogError("AutoSubs: Init End");
                 }
+
+                if(Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.OSXPlayer) 
+                {
+                    InitAFAutoSubs(iOSAppId, devKey, isSandbox);
+                }
+#endif
             }
         }
 
@@ -169,7 +186,7 @@ namespace BoGD
                 return;
             }
 
-#if APPSFLYER_INT         
+#if APPSFLYER_INT
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             foreach(var item in data)
             {

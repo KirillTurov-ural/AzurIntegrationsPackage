@@ -245,8 +245,8 @@ namespace BoGD
 
 
 #if UNITY_IOS
-            ids.Add(new Dictionary<string, object>() { { "type", "IDFA" }, { "value", UnityEngine.iOS.Device.advertisingIdentifier } });
-            ids.Add(new Dictionary<string, object>() { { "type", "IDFV" }, { "value", UnityEngine.iOS.Device.vendorIdentifier } });
+            ids.Add(new Dictionary<string, string>() { { "type", "IDFA" }, { "value", UnityEngine.iOS.Device.advertisingIdentifier } });
+            ids.Add(new Dictionary<string, string>() { { "type", "IDFV" }, { "value", UnityEngine.iOS.Device.vendorIdentifier } });
 #else
             ids.Add(new Dictionary<string, string>() { { "type", "IDFA" }, { "value", "TEST IDFA" } });
             ids.Add(new Dictionary<string, string>() { { "type", "IDFV" }, { "value", "TEST IDFV" } });
